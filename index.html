@@ -1355,13 +1355,13 @@ section::after{content:'';display:block;}
 
       <!-- Share buttons -->
       <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
-        <a href="javascript:void(0)" onclick="var u=window.location.href; var t='Hey! Check out Creative Web Ceylon — they build stunning websites, logos & posters for businesses in Sri Lanka. Check them out: '; window.open('https://wa.me/?text='+encodeURIComponent(t)+encodeURIComponent(u), '_blank');" class="btn-primary" style="text-decoration:none;border:none;cursor:pointer;background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;padding:0.8rem 2rem;border-radius:30px;font-weight:600;font-size:0.9rem;display:inline-flex;align-items:center;gap:0.5rem;font-family:'Poppins',sans-serif;box-shadow:0 6px 20px rgba(37,211,102,0.35);">
+        <a href="javascript:void(0)" onclick="var u='https://minodya2003.github.io/creative-web-ceylon/'; var t='Hey! Check out Creative Web Ceylon — they build stunning websites, logos & posters for businesses in Sri Lanka. Check them out: '; window.open('https://wa.me/?text='+encodeURIComponent(t)+encodeURIComponent(u), '_blank');" class="btn-primary" style="text-decoration:none;border:none;cursor:pointer;background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;padding:0.8rem 2rem;border-radius:30px;font-weight:600;font-size:0.9rem;display:inline-flex;align-items:center;gap:0.5rem;font-family:'Poppins',sans-serif;box-shadow:0 6px 20px rgba(37,211,102,0.35);">
           <i class="fab fa-whatsapp"></i> Share on WhatsApp
         </a>
         <button onclick="copyLinkRobust()" id="copyBtn" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);color:var(--text);padding:0.8rem 2rem;border-radius:30px;font-weight:600;font-size:0.9rem;cursor:pointer;display:inline-flex;align-items:center;gap:0.5rem;font-family:'Poppins',sans-serif;">
           <i class="fas fa-link"></i> Copy Link
         </button>
-        <a href="javascript:void(0)" onclick="var u=window.location.href; window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(u), '_blank');" style="text-decoration:none;background:rgba(24,119,242,0.15);border:1px solid rgba(24,119,242,0.3);color:#4A90E2;padding:0.8rem 2rem;border-radius:30px;font-weight:600;font-size:0.9rem;cursor:pointer;display:inline-flex;align-items:center;gap:0.5rem;font-family:'Poppins',sans-serif;">
+        <a href="javascript:void(0)" onclick="var u='https://minodya2003.github.io/creative-web-ceylon/'; window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(u), '_blank');" style="text-decoration:none;background:rgba(24,119,242,0.15);border:1px solid rgba(24,119,242,0.3);color:#4A90E2;padding:0.8rem 2rem;border-radius:30px;font-weight:600;font-size:0.9rem;cursor:pointer;display:inline-flex;align-items:center;gap:0.5rem;font-family:'Poppins',sans-serif;">
           <i class="fab fa-facebook"></i> Share on Facebook
         </a>
       </div>
@@ -1886,7 +1886,7 @@ setTimeout(() => {
 })();
 
 function copyLinkRobust(){
-  const url = window.location.href;
+  const url = 'https://minodya2003.github.io/creative-web-ceylon/';
   const btn = document.getElementById('copyBtn');
   const showCopied = function() {
     if(!btn) return;
@@ -1906,10 +1906,18 @@ function copyLinkRobust(){
 function fallbackCopyTextToClipboard(text, callback) {
   var textArea = document.createElement("textarea");
   textArea.value = text;
-  textArea.setAttribute('readonly', '');
-  textArea.style.position = "absolute";
-  textArea.style.left = "-9999px";
+  textArea.style.position = "fixed";
+  textArea.style.top = "0";
+  textArea.style.left = "0";
+  textArea.style.width = "2em";
+  textArea.style.height = "2em";
+  textArea.style.padding = "0";
+  textArea.style.border = "none";
+  textArea.style.outline = "none";
+  textArea.style.boxShadow = "none";
+  textArea.style.background = "transparent";
   document.body.appendChild(textArea);
+  textArea.focus();
   textArea.select();
   textArea.setSelectionRange(0, 99999);
   try {
