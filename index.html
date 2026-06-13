@@ -1355,13 +1355,13 @@ section::after{content:'';display:block;}
 
       <!-- Share buttons -->
       <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
-        <a id="waShareBtn" target="_blank" class="btn-primary" style="text-decoration:none;border:none;cursor:pointer;background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;padding:0.8rem 2rem;border-radius:30px;font-weight:600;font-size:0.9rem;display:inline-flex;align-items:center;gap:0.5rem;font-family:'Poppins',sans-serif;box-shadow:0 6px 20px rgba(37,211,102,0.35);">
+        <a href="javascript:void(0)" onclick="var u=window.location.href; var t='Hey! Check out Creative Web Ceylon — they build stunning websites, logos & posters for businesses in Sri Lanka. Check them out: '; window.open('https://wa.me/?text='+encodeURIComponent(t)+encodeURIComponent(u), '_blank');" class="btn-primary" style="text-decoration:none;border:none;cursor:pointer;background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;padding:0.8rem 2rem;border-radius:30px;font-weight:600;font-size:0.9rem;display:inline-flex;align-items:center;gap:0.5rem;font-family:'Poppins',sans-serif;box-shadow:0 6px 20px rgba(37,211,102,0.35);">
           <i class="fab fa-whatsapp"></i> Share on WhatsApp
         </a>
-        <button onclick="copyLink()" id="copyBtn" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);color:var(--text);padding:0.8rem 2rem;border-radius:30px;font-weight:600;font-size:0.9rem;cursor:pointer;display:inline-flex;align-items:center;gap:0.5rem;font-family:'Poppins',sans-serif;">
+        <button onclick="copyLinkRobust()" id="copyBtn" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);color:var(--text);padding:0.8rem 2rem;border-radius:30px;font-weight:600;font-size:0.9rem;cursor:pointer;display:inline-flex;align-items:center;gap:0.5rem;font-family:'Poppins',sans-serif;">
           <i class="fas fa-link"></i> Copy Link
         </button>
-        <a id="fbShareBtn" target="_blank" style="text-decoration:none;background:rgba(24,119,242,0.15);border:1px solid rgba(24,119,242,0.3);color:#4A90E2;padding:0.8rem 2rem;border-radius:30px;font-weight:600;font-size:0.9rem;cursor:pointer;display:inline-flex;align-items:center;gap:0.5rem;font-family:'Poppins',sans-serif;">
+        <a href="javascript:void(0)" onclick="var u=window.location.href; window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(u), '_blank');" style="text-decoration:none;background:rgba(24,119,242,0.15);border:1px solid rgba(24,119,242,0.3);color:#4A90E2;padding:0.8rem 2rem;border-radius:30px;font-weight:600;font-size:0.9rem;cursor:pointer;display:inline-flex;align-items:center;gap:0.5rem;font-family:'Poppins',sans-serif;">
           <i class="fab fa-facebook"></i> Share on Facebook
         </a>
       </div>
@@ -1885,46 +1885,38 @@ setTimeout(() => {
   hero.addEventListener('mouseleave', () => { trail.style.opacity = '0'; });
 })();
 
-// Referral share buttons
-(function() {
-  const url = encodeURIComponent(window.location.href);
-  const text = encodeURIComponent('Hey! Check out Creative Web Ceylon — they build stunning websites, logos & posters for businesses in Sri Lanka. Check them out: ');
-  const waBtn = document.getElementById('waShareBtn');
-  if (waBtn) waBtn.href = 'https://wa.me/?text=' + text + url;
-  const fbBtn = document.getElementById('fbShareBtn');
-  if (fbBtn) fbBtn.href = 'https://www.facebook.com/sharer/sharer.php?u=' + url;
-})();
-
-function copyLink(){
+function copyLinkRobust(){
   const url = window.location.href;
+  const btn = document.getElementById('copyBtn');
   const showCopied = function() {
-    const btn = document.getElementById('copyBtn');
     if(!btn) return;
     btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
     setTimeout(()=>{ btn.innerHTML = '<i class="fas fa-link"></i> Copy Link'; }, 2000);
   };
   
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(url).then(showCopied).catch(function() {
+      fallbackCopyTextToClipboard(url, showCopied);
+    });
+  } else {
+    fallbackCopyTextToClipboard(url, showCopied);
+  }
+}
+
+function fallbackCopyTextToClipboard(text, callback) {
   var textArea = document.createElement("textarea");
-  textArea.value = url;
-  textArea.style.position = "fixed";
-  textArea.style.top = "0";
-  textArea.style.left = "0";
+  textArea.value = text;
+  textArea.setAttribute('readonly', '');
+  textArea.style.position = "absolute";
+  textArea.style.left = "-9999px";
   document.body.appendChild(textArea);
-  textArea.focus();
   textArea.select();
   textArea.setSelectionRange(0, 99999);
-  
-  let success = false;
   try {
-    success = document.execCommand('copy');
+    document.execCommand('copy');
+    if(callback) callback();
   } catch (err) {}
   document.body.removeChild(textArea);
-  
-  if(success) {
-    showCopied();
-  } else if (navigator.clipboard) {
-    navigator.clipboard.writeText(url).then(showCopied);
-  }
 }
 
 // Scroll nav effect
